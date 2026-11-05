@@ -1,11 +1,11 @@
 <h1>ExpNo 4 : Implement A* search algorithm for a Graph</h1> 
-<h3>Name:       </h3>
-<h3>Register Number:           </h3>
+<h3>Name:JAGAN J P  </h3>
+<h3>Register Number: 212224230099 </h3>
 <H3>Aim:</H3>
 <p>To ImplementA * Search algorithm for a Graph using Python 3.</p>
 <H3>Algorithm:</H3>
 
-``````
+```````
 // A* Search Algorithm
 1.  Initialize the open list
 2.  Initialize the closed list
@@ -49,71 +49,85 @@
     end (while loop)
 
 ``````
+## PROGRAM: 
+```
+from collections import defaultdict
 
-<hr>
-<h2>Sample Graph I</h2>
-<hr>
+H_dist = {}
 
+def aStarAlgo(start_node, stop_node):
+    open_set = {start_node}
+    closed_set = set()
+
+    g = {start_node: 0}
+    parents = {start_node: start_node}
+
+    while open_set:
+        n = min(open_set, key=lambda v: g[v] + heuristic(v))
+
+        if n == stop_node:
+            path = []
+            while parents[n] != n:
+                path.append(n)
+                n = parents[n]
+            path.append(start_node)
+            path.reverse()
+            print("Path found:", path)
+            print("Cost:", g[stop_node])
+            return path
+
+        for m, weight in get_neighbors(n):
+            new_cost = g[n] + weight
+
+            if m not in g or new_cost < g[m]:
+                g[m] = new_cost
+                parents[m] = n
+                open_set.add(m)
+                closed_set.discard(m)
+
+        open_set.remove(n)
+        closed_set.add(n)
+
+    print("Path does not exist!")
+    return None
+
+def get_neighbors(v):
+    return Graph_nodes.get(v, [])
+
+def heuristic(n):
+    return H_dist[n]
+
+graph = defaultdict(list)
+
+n, e = map(int, input().split())
+
+for _ in range(e):
+    u, v, cost = input().split()
+    cost = int(cost)
+
+    graph[u].append((v, cost))
+    graph[v].append((u, cost))
+
+for _ in range(n):
+    node, h = input().split()
+    H_dist[node] = int(h)
+
+Graph_nodes = graph
+
+start = input().strip()
+goal = input().strip()
+
+aStarAlgo(start, goal)
+```
+## Sample Graph I
 ![image](https://github.com/natsaravanan/19AI405FUNDAMENTALSOFARTIFICIALINTELLIGENCE/assets/87870499/b1377c3f-011a-4c0f-a843-516842ae056a)
 
-<hr>
-<h2>Sample Input</h2>
-<hr>
-10 14 <br>
-A B 6 <br>
-A F 3 <br>
-B D 2 <br>
-B C 3 <br>
-C D 1 <br>
-C E 5 <br>
-D E 8 <br>
-E I 5 <br>
-E J 5 <br>
-F G 1 <br>
-G I 3 <br>
-I J 3 <br>
-F H 7 <br>
-I H 2 <br>
-A 10 <br>
-B 8 <br>
-C 5 <br>
-D 7 <br>
-E 3 <br>
-F 6 <br>
-G 5 <br>
-H 3 <br>
-I 1 <br>
-J 0 <br>
-<hr>
-<h2>Sample Output</h2>
-<hr>
-Path found: ['A', 'F', 'G', 'I', 'J']
-
-
-<hr>
-<h2>Sample Graph II</h2>
-<hr>
-
+## Sample Graph II</h2>
 ![image](https://github.com/natsaravanan/19AI405FUNDAMENTALSOFARTIFICIALINTELLIGENCE/assets/87870499/acbb09cb-ed39-48e5-a59b-2f8d61b978a3)
 
+## OUTPUT:
 
-<hr>
-<h2>Sample Input</h2>
-<hr>
-6 6 <br>
-A B 2 <br>
-B C 1 <br>
-A E 3 <br>
-B G 9 <br>
-E D 6 <br>
-D G 1 <br>
-A 11 <br>
-B 6 <br>
-C 99 <br>
-E 7 <br>
-D 1 <br>
-G 0 <br>
-<hr>
-<h2>Sample Output</h2>
-<hr>
-Path found: ['A', 'E', 'D', 'G']
+<img width="1277" height="892" alt="image" src="https://github.com/user-attachments/assets/3469093c-9e85-4d97-baf0-aa39839427b4" />
+
+## RESULT:
+Thus a graph was constructed and implemantation of A star Search for the same graph was done successfully.
